@@ -5,13 +5,15 @@ HTTP_PATH := net_install
 DIST := dist/$(HTTP_HOST)/$(HTTP_PATH)
 KEYS := keys/$(HTTP_HOST)
 FIRMWARE := firmware/$(HTTP_HOST)
+EMBED := $$PWD/autoexec.ipxe
 
 $(shell mkdir -p $(DIST) $(KEYS) $(FIRMWARE) firmware tools)
 
 all: $(DIST)/boot.img $(DIST)/boot.sig $(DIST)/flash-eeprom.img.xz
 
 $(DIST)/boot.img:
-	[[ -f $@ ]] || wget -O $@ $(BOOT_IMG_URL)
+	$(MAKE) -C pipxe IPXE_TGT=bin-arm64-efi/ipxe.efidrv EMBED=$(EMBED) boot.img
+	mv pipxe/boot.img $@
 
 $(DIST)/boot.sig: tools/rpi-eeprom-digest $(DIST)/boot.img $(KEYS)/private.pem
 	tools/rpi-eeprom-digest -i $(DIST)/boot.img -o $@ -k $(KEYS)/private.pem
@@ -69,7 +71,7 @@ $(FIRMWARE)/boot-config.txt:
 	echo "HTTP_PATH=$(HTTP_PATH)" >> $@
 
 clean:
-	rm -rf $(DIST) $(FIRMWARE)
+	rm -rf $(DIST) $(FIRMWARE) && make -C pipxe clean
 
-.PRECIOUS: $(KEYS)/private.pem $(KEYS)/public.pem firmware/pieeprom-2022-03-10.bin firmware/vl805-000138a1.bin firmware/recovery.bin boot-config.txt
-.PHONY: $(FIRMWARE)/boot-config.txt $(FIRMWARE)/boot-config.sig $(FIRMWARE)/pieeprom.bin $(FIRMWARE)/pieeprom.sig $(FIRMWARE)/vl805.bin $(FIRMWARE)/vl805.sig
+.PRECIOUS: $(KEYS)/private.pem $(KEYS)/public.pem firmware/pieeprom-2022-03-10.bin firmware/vl805-000138a1.bin firmware/recovery.bin
+.PHONY: clean $(DIST)/boot.img
