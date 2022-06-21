@@ -13,6 +13,8 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Install packages
         run: |
@@ -24,6 +26,7 @@ jobs:
 
       - name: Build everything
         run: |
+          echo "${{ secrets.SIGNING_KEY }}" > keys/private.pem
           make -j8
 
       - name: Create release
