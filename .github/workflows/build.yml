@@ -1,0 +1,66 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install packages
+        run: |
+          sudo apt update
+          sudo apt install -y -o Acquire::Retries=50 \
+                           gcc-aarch64-linux-gnu iasl mtools subversion \
+                           lzma-dev uuid-dev
+          sudo ln -sf /bin/bash /bin/sh 
+
+      - name: Build everything
+        run: |
+          make -j8
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+
+      - name: Upload (flash-eeprom-ubuntu-focal.img.xz)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: flash-eeprom-ubuntu-focal.img.xz
+          asset_path: dist/flash-eeprom-ubuntu-focal.img.xz
+          asset_content_type: application/octet-stream
+
+      - name: Upload (boot-ubuntu-focal.img)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: boot-ubuntu-focal.img
+          asset_path: dist/boot-ubuntu-focal.img
+          asset_content_type: application/octet-stream
+
+      - name: Upload (boot-ubuntu-focal.sig)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_name: boot-ubuntu-focal.sig
+          asset_path: dist/boot-ubuntu-focal.sig
+          asset_content_type: application/octet-stream
