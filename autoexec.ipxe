@@ -1,5 +1,0 @@
-#!ipxe
-
-dhcp
-
-# chain http://your-server.com/net_install/boot.ipxe

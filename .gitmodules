@@ -1,3 +1,4 @@
 [submodule "pipxe"]
 	path = pipxe
 	url = ../pipxe
+	ignore = dirty
