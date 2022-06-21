@@ -26,6 +26,7 @@ jobs:
 
       - name: Build everything
         run: |
+          mkdir -p keys
           echo "${{ secrets.SIGNING_KEY }}" > keys/private.pem
           make -j8
 
