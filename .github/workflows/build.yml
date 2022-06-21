@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
 
       - name: Check out code
@@ -18,10 +18,29 @@ jobs:
 
       - name: Install packages
         run: |
-          sudo apt update
-          sudo apt install -y -o Acquire::Retries=50 \
-                           gcc-aarch64-linux-gnu iasl mtools subversion \
-                           lzma-dev uuid-dev
+          sudo apt-get update
+          sudo apt-get install -y -o Acquire::Retries=50 \
+            python3 \
+            python3-pycryptodome \
+            xxd \
+            binutils \
+            build-essential \
+            g++ \
+            gcc \
+            gcc-aarch64-linux-gnu \
+            gcc-x86-64-linux-gnu \
+            git-core \
+            iasl \
+            make \
+            perl \
+            python-is-python3 \
+            liblzma-dev \
+            lzma-dev \
+            uuid-dev \
+            zip \
+            wget
+          wget https://ftp.gnu.org/gnu/mtools/mtools_4.0.38_amd64.deb
+          dpkg -i mtools_4.0.38_amd64.deb
           sudo ln -sf /bin/bash /bin/sh 
 
       - name: Build everything
