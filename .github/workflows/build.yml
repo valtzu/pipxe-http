@@ -39,8 +39,8 @@ jobs:
             uuid-dev \
             zip \
             wget
-          wget https://ftp.gnu.org/gnu/mtools/mtools_4.0.38_amd64.deb
-          dpkg -i mtools_4.0.38_amd64.deb
+          sudo wget https://ftp.gnu.org/gnu/mtools/mtools_4.0.38_amd64.deb
+          sudo dpkg -i mtools_4.0.38_amd64.deb
           sudo ln -sf /bin/bash /bin/sh 
 
       - name: Build everything
