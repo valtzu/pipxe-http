@@ -1,7 +1,7 @@
 IMAGE_NAME := ubuntu-focal
 
 # Translates to https://github.com/valtzu/pipxe-http/releases/latest/download/boot-ubuntu-focal.img
-HTTP_HOST := github.valtzu.workers.dev # HTTP -> HTTPS reverse proxy as HTTP boot does not support custom TLS
+HTTP_HOST := github.valtzu.workers.dev
 HTTP_PORT := 80
 HTTP_PATH := $(IMAGE_NAME)
 
