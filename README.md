@@ -1,38 +1,30 @@
 iPXE over HTTP boot for Raspberry Pi 4
 --------------------------------------
 
-### Quick start
+### Requirements:
+* 1 x SD card
+* 1 x Raspberry Pi 4 (only tested with 8GB model) with power & ethernet
 
-#### 1. Edit autoexec.ipxe
-Refer to [iPXE docs](https://ipxe.org/docs)
 
-#### 2. Build
-```
-make HTTP_HOST=your-server.com HTTP_PORT=80
-```
+### The flow
 
-#### 3. Serve `dist/$HTTP_HOST` at `http://$HTTP_HOST:$HTTP_PORT`
+***PLEASE NOTE, THIS IS FOR PROOF OF CONCEPT ONLY AND WE WILL SETUP AN UNSAFE USER ACCOUNT HERE***
 
-Use nginx or some other HTTP (not HTTPS) server to serve the boot files.
+1. Download [flash-eeprom-ubuntu-focal.img.xz](https://github.com/valtzu/pipxe-http/releases/latest/download/flash-eeprom-ubuntu-focal.img.xz)
+2. Flash the image to the SD card, f.e. with the [official rpi-imager](https://github.com/raspberrypi/rpi-imager) that auto-handles xz decompression.
+3. Put the card in the Pi
+4. Power it on
+5. Wait until the green led is blinking in a consistent pattern – it should only take a few seconds to reach that
+6. Power off, remove SD card & power back on
+7. Use your imagination or luck to figure out PI
+8. (you may need to wait a minute here, depending on your internet speed)
+9. `ssh unsafe@x.x.x.x` where `x.x.x.x` is the IP from step 7 and password is `unsafe`
 
-#### 4. Flash EEPROM
-Burn `dist/$HTTP_HOST/flash-eeprom.img` to an SD card.
-Put the card in the Pi and boot it up.
-Wait until the green LED is flashing in a consistent pattern, it should take only a few seconds to reach that.
-Power off & remove SD card.
 
-#### 5. Boot from internet
-Attach ethernet cable and power up the Pi.
-It will now load & boot UEFI+iPXE stack from `http://your-server.com/net_install/boot.img`.
 
-### Tips
+## How it works
 
-To avoid rebuilding the `boot.img` every time you want to make changes to the iPXE script,
-it is suggested to use chainloading. This way you can just edit the file and then reboot the Pi.
+Eeprom flasher images contain http boot configuration that point to specific asset in the latest release of this repo – f.e. `flash-eeprom-ubuntu-focal.img.xz` -> `boot-ubuntu-focal.img`. After flashing the image to rpi eeprom, the Pi will look up for a boot image that was defined in the [Makefile](Makefile#L4-L6).
 
-For example:
-``` 
-#!ipxe
-dhcp
-chain http://your-server.com/net_install/boot.ipxe
-```
+The boot image contains UEFI stack and an embedded iPXE driver with [embedded iPXE boot script](embedded). At boot time it [chainloads another iPXE script](https://github.com/valtzu/pipxe-http/tree/main/chained) from this repository – it contains the actual boot information, which kernel to use etc. Finally, it uses cloud-init to setup [an unsafe user account](https://github.com/valtzu/pipxe/tree/master/example/cloud-init).
+
