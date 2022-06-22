@@ -12,7 +12,7 @@ PRIVATE_KEY := $(KEYS)/private.pem
 PUBLIC_KEY := $(KEYS)/public.pem
 FIRMWARE := firmware/$(IMAGE_NAME)
 BOOT_CONFIG := $(FIRMWARE)/boot-config.txt
-EMBED := $$PWD/$(IMAGE_NAME).ipxe
+EMBED := $$PWD/embedded/$(IMAGE_NAME).ipxe
 
 $(shell mkdir -p $(DIST) $(KEYS) $(FIRMWARE) firmware tools)
 

@@ -1,0 +1,6 @@
+#!ipxe
+
+dhcp
+ntp pool.ntp.org
+
+chain https://raw.githubusercontent.com/valtzu/pipxe-http/main/chained/ubuntu-focal.ipxe

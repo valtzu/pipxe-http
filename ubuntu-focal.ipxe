@@ -1,7 +1,0 @@
-#!ipxe
-
-dhcp
-ntp pool.ntp.org
-
-# todo: use latest release instead of main
-chain https://raw.githubusercontent.com/valtzu/pipxe-scripts/main/ubuntu-focal.ipxe
