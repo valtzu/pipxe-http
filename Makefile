@@ -1,9 +1,9 @@
 IMAGE_NAME := ubuntu-focal
 
-# Translates to https://github.com/valtzu/pipxe-http/releases/latest/download/boot-ubuntu-focal.img
-HTTP_HOST := github.valtzu.workers.dev
+# Translates to https://github.com/valtzu/pipxe-http/releases/latest/download/boot-$(IMAGE_NAME).img
+HTTP_HOST := valtzu.kapsi.fi
 HTTP_PORT := 80
-HTTP_PATH := $(IMAGE_NAME)
+HTTP_PATH := pipxe-http/$(IMAGE_NAME)
 
 RPI_EEPROM_URL := https://raw.githubusercontent.com/raspberrypi/rpi-eeprom/master
 DIST := dist
