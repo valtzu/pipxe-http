@@ -48,7 +48,8 @@ jobs:
         run: |
           mkdir -p keys
           echo "${{ secrets.SIGNING_KEY }}" > keys/private.pem
-          make -j8
+          make -j8 IMAGE_NAME=ubuntu-focal
+          make -j8 IMAGE_NAME=k3s-jammy
 
       - name: Create release
         id: create_release
