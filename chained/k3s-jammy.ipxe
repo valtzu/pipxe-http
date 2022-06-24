@@ -1,9 +1,10 @@
 #!ipxe
 
-set root-url http://github.com/valtzu/rpi-images/releases/latest/download
+set rpi-images http://github.com/valtzu/rpi-images/releases/latest/download
+set root-url ${rpi-images}/jammy-minimal-cloudimg-arm64.tar.xz,${rpi-images}/k3s-arm64-1.24.tar.xz
 set cloud-init https://raw.githubusercontent.com/valtzu/pipxe-http/main/cloud-init/unsafe/
 
-initrd ${root-url}/initrd.img
-chain ${root-url}/vmlinuz initrd=initrd.img "root=${root-url}/jammy-minimal-cloudimg-arm64.tar.xz ${root-url}/k3s-arm64-1.24.tar.xz" ip=dhcp overlayroot=tmpfs:recurse=0 network-config=disabled ds=nocloud-net;s=${cloud-init}
+initrd ${rpi-images}/initrd.img
+chain ${rpi-images}/vmlinuz initrd=initrd.img root=${root-url} ip=dhcp overlayroot=tmpfs:recurse=0 network-config=disabled ds=nocloud-net;s=${cloud-init}
 
 boot
