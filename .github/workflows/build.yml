@@ -9,6 +9,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        image:
+          - ubuntu-focal
+          - k3s-jammy
     steps:
 
       - name: Check out code
@@ -59,42 +64,42 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
 
-      - name: Upload (flash-eeprom-ubuntu-focal.img.xz)
+      - name: Upload (flash-eeprom-${{ matrix.image }}.img.xz)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: flash-eeprom-ubuntu-focal.img.xz
-          asset_path: dist/flash-eeprom-ubuntu-focal.img.xz
+          asset_name: flash-eeprom-${{ matrix.image }}.img.xz
+          asset_path: dist/flash-eeprom-${{ matrix.image }}.img.xz
           asset_content_type: application/octet-stream
 
-      - name: Upload (boot-ubuntu-focal.img)
+      - name: Upload (boot-${{ matrix.image }}.img)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: boot-ubuntu-focal.img
-          asset_path: dist/boot-ubuntu-focal.img
+          asset_name: boot-${{ matrix.image }}.img
+          asset_path: dist/boot-${{ matrix.image }}.img
           asset_content_type: application/octet-stream
 
-      - name: Upload (boot-ubuntu-focal.sig)
+      - name: Upload (boot-${{ matrix.image }}.sig)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: boot-ubuntu-focal.sig
-          asset_path: dist/boot-ubuntu-focal.sig
+          asset_name: boot-${{ matrix.image }}.sig
+          asset_path: dist/boot-${{ matrix.image }}.sig
           asset_content_type: application/octet-stream
 
-      - name: Upload (ubuntu-focal.ipxe)
+      - name: Upload (${{ matrix.image }}.ipxe)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: ubuntu-focal.ipxe
-          asset_path: chained/ubuntu-focal.ipxe
+          asset_name: ${{ matrix.image }}.ipxe
+          asset_path: chained/${{ matrix.image }}.ipxe
           asset_content_type: text/plain
