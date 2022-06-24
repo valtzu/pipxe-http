@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: unsafe
+    plain_text_passwd: unsafe
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+ssh_pwauth: yes

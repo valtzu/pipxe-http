@@ -26,5 +26,4 @@ iPXE over HTTP boot for Raspberry Pi 4
 
 Eeprom flasher images contain http boot configuration that point to specific asset in the latest release of this repo – f.e. `flash-eeprom-ubuntu-focal.img.xz` -> `boot-ubuntu-focal.img`. After flashing the image to rpi eeprom, the Pi will look up for a boot image that was defined in the [Makefile](Makefile#L4-L6).
 
-The boot image contains UEFI stack and an embedded iPXE driver with [embedded iPXE boot script](embedded). At boot time it [chainloads another iPXE script](https://github.com/valtzu/pipxe-http/tree/main/chained) from this repository – it contains the actual boot information, which kernel to use etc. Finally, it uses cloud-init to setup [an unsafe user account](https://github.com/valtzu/pipxe/tree/master/example/cloud-init).
-
+The boot image contains UEFI stack and an embedded iPXE driver with [embedded iPXE boot script](embedded). At boot time it [chainloads another iPXE script](chained) from this repository – it contains the actual boot information, which kernel to use etc. Finally, it uses cloud-init to set up [an unsafe user account](cloud-init/unsafe).
