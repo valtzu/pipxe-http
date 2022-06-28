@@ -1,7 +1,7 @@
 #!ipxe
 
 set rpi-images http://github.com/valtzu/rpi-images/releases/latest/download
-set root-url ${rpi-images}/jammy-minimal-cloudimg-arm64.tar.xz,${rpi-images}/k3s-arm64-1.24.tar.xz
+set root-url ${rpi-images}/jammy-minimal-cloudimg-arm64.tar.xz,${rpi-images}/kernel-modules.tar.xz,${rpi-images}/k3s-arm64-1.24.tar.xz
 set cloud-init https://raw.githubusercontent.com/valtzu/pipxe-http/main/cloud-init/unsafe/
 
 initrd ${rpi-images}/initrd.img
