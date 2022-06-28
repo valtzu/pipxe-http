@@ -10,7 +10,7 @@ iPXE over HTTP boot for Raspberry Pi 4
 
 > ***PLEASE NOTE, THIS IS FOR PROOF OF CONCEPT ONLY AND WE WILL SETUP AN UNSAFE USER ACCOUNT HERE***
 
-1. Download [flash-eeprom-ubuntu-focal.img.xz](https://github.com/valtzu/pipxe-http/releases/latest/download/flash-eeprom-ubuntu-focal.img.xz)
+1. Download [flash-eeprom-ubuntu-jammy.img.xz](https://github.com/valtzu/pipxe-http/releases/latest/download/flash-eeprom-ubuntu-jammy.img.xz)
 2. Flash the image to the SD card, f.e. with the [official rpi-imager](https://github.com/raspberrypi/rpi-imager) that auto-handles xz decompression.
 3. Put the card in the Pi
 4. Power it on
@@ -24,6 +24,6 @@ iPXE over HTTP boot for Raspberry Pi 4
 
 ## How it works
 
-Eeprom flasher images contain http boot configuration that point to specific asset in the latest release of this repo – f.e. `flash-eeprom-ubuntu-focal.img.xz` -> `boot-ubuntu-focal.img`. After flashing the image to rpi eeprom, the Pi will look up for a boot image that was defined in the [Makefile](Makefile#L4-L6).
+Eeprom flasher images contain http boot configuration that point to specific asset in the latest release of this repo – f.e. `flash-eeprom-ubuntu-jammy.img.xz` -> `boot-ubuntu-jammy.img`. After flashing the image to rpi eeprom, the Pi will look up for a boot image that was defined in the [Makefile](Makefile#L4-L6).
 
 The boot image contains UEFI stack and an embedded iPXE driver with [embedded iPXE boot script](embedded). At boot time it [chainloads another iPXE script](chained) from this repository – it contains the actual boot information, which kernel to use etc. Finally, it uses cloud-init to set up [an unsafe user account](cloud-init/unsafe).

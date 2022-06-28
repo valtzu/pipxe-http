@@ -48,7 +48,7 @@ jobs:
         run: |
           mkdir -p keys
           echo "${{ secrets.SIGNING_KEY }}" > keys/private.pem
-          make -j8 IMAGE_NAME=ubuntu-focal
+          make -j8 IMAGE_NAME=ubuntu-jammy
           make -j8 IMAGE_NAME=k3s-jammy
 
       - name: Create release
@@ -60,44 +60,44 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
 
-      - name: Upload (flash-eeprom-ubuntu-focal.img.xz)
+      - name: Upload (flash-eeprom-ubuntu-jammy.img.xz)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: flash-eeprom-ubuntu-focal.img.xz
-          asset_path: dist/flash-eeprom-ubuntu-focal.img.xz
+          asset_name: flash-eeprom-ubuntu-jammy.img.xz
+          asset_path: dist/flash-eeprom-ubuntu-jammy.img.xz
           asset_content_type: application/octet-stream
 
-      - name: Upload (boot-ubuntu-focal.img)
+      - name: Upload (boot-ubuntu-jammy.img)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: boot-ubuntu-focal.img
-          asset_path: dist/boot-ubuntu-focal.img
+          asset_name: boot-ubuntu-jammy.img
+          asset_path: dist/boot-ubuntu-jammy.img
           asset_content_type: application/octet-stream
 
-      - name: Upload (boot-ubuntu-focal.sig)
+      - name: Upload (boot-ubuntu-jammy.sig)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: boot-ubuntu-focal.sig
-          asset_path: dist/boot-ubuntu-focal.sig
+          asset_name: boot-ubuntu-jammy.sig
+          asset_path: dist/boot-ubuntu-jammy.sig
           asset_content_type: application/octet-stream
 
-      - name: Upload (ubuntu-focal.ipxe)
+      - name: Upload (ubuntu-jammy.ipxe)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_name: ubuntu-focal.ipxe
-          asset_path: chained/ubuntu-focal.ipxe
+          asset_name: ubuntu-jammy.ipxe
+          asset_path: chained/ubuntu-jammy.ipxe
           asset_content_type: text/plain
 
       - name: Upload (flash-eeprom-k3s-jammy.img.xz)

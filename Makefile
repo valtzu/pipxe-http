@@ -1,4 +1,4 @@
-IMAGE_NAME := ubuntu-focal
+IMAGE_NAME := ubuntu-jammy
 
 # Translates to https://github.com/valtzu/pipxe-http/releases/latest/download/boot-$(IMAGE_NAME).img
 HTTP_HOST := valtzu.kapsi.fi
