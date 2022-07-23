@@ -47,8 +47,8 @@ tools/rpi-eeprom-digest:
 	[[ -f $@ ]] || wget -O $@ -q $(RPI_EEPROM_URL)/rpi-eeprom-digest
 	[[ -x $@ ]] || chmod u+x $@
 
-firmware/pieeprom-2022-04-26.bin:
-	[[ -f $@ ]] || wget -q -O $@ $(RPI_EEPROM_URL)/firmware/stable/pieeprom-2022-04-26.bin
+firmware/pieeprom-2022-07-22.bin:
+	[[ -f $@ ]] || wget -q -O $@ $(RPI_EEPROM_URL)/firmware/stable/pieeprom-2022-07-22.bin
 
 firmware/recovery.bin:
 	[[ -f $@ ]] || wget -q -O $@ $(RPI_EEPROM_URL)/firmware/stable/recovery.bin
@@ -59,7 +59,7 @@ firmware/vl805-000138a1.bin:
 $(FIRMWARE)/recovery.bin: firmware/recovery.bin
 	ln $< $@
 
-$(FIRMWARE)/pieeprom.bin: firmware/pieeprom-2022-04-26.bin tools/rpi-eeprom-config $(PUBLIC_KEY) $(BOOT_CONFIG) $(FIRMWARE)/boot-config.sig
+$(FIRMWARE)/pieeprom.bin: firmware/pieeprom-2022-07-22.bin tools/rpi-eeprom-config $(PUBLIC_KEY) $(BOOT_CONFIG) $(FIRMWARE)/boot-config.sig
 	tools/rpi-eeprom-config -c $(BOOT_CONFIG) --digest $(FIRMWARE)/boot-config.sig -p $(PUBLIC_KEY) -o $@ $<
 
 $(FIRMWARE)/vl805.bin: firmware/vl805-000138a1.bin
@@ -80,5 +80,5 @@ $(BOOT_CONFIG):
 clean:
 	rm -rf $(DIST) $(FIRMWARE) && make -C pipxe clean
 
-.PRECIOUS: $(PRIVATE_KEY) $(PUBLIC_KEY) firmware/pieeprom-2022-04-26.bin firmware/vl805-000138a1.bin firmware/recovery.bin
+.PRECIOUS: $(PRIVATE_KEY) $(PUBLIC_KEY) firmware/pieeprom-2022-07-22.bin firmware/vl805-000138a1.bin firmware/recovery.bin
 .PHONY: clean
